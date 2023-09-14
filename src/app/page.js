@@ -1,95 +1,105 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+import React, { useState } from "react";
+import styles from "./page.module.css";
+import {
+  ChatWrapper,
+  MainContainer,
+  ChatToggle,
+  Header,
+  Conversation,
+  MessageInput,
+  Spacer,
+  SuggestedQuestions
+} from "janus-ds";
+
+let conversationList = [
+  {
+    content: 'Hola Hola',
+    variant: 'incoming',
+  },
+  {
+    content: 'This is a message, test testing',
+    variant: 'incoming',
+  },
+  {
+    content:
+      'It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+    variant: 'outgoing',
+  },
+  {
+    content: 'This is a message, test testing 😎',
+    variant: 'outgoing',
+  },
+  {
+    content: <a href="google.com">This is a link</a>,
+    variant: 'outgoing',
+  },
+]
+
+let questionList = [
+  {
+    children: 'Question number 1',
+  },
+  {
+    children: 'Question number 2',
+  },
+  {
+    children: 'Question number 3',
+  },
+  {
+    children: 'Question number 4',
+  },
+  {
+    children: 'Question number 5',
+  },
+  {
+    children: 'Question number 6',
+  },
+  {
+    children: 'Question number 7',
+  },
+  {
+    children: 'Question number 8',
+  },
+  {
+    children: 'Question number 9',
+  },
+  {
+    children: 'Question number 10',
+  },
+]
 
 export default function Home() {
+  const [isChatVisible, setChatVisible] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+
+  const toggleChatVisibility = () => {
+    setChatVisible(!isChatVisible);
+    setIsClicked(!isClicked);
+  };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
+    <>
+      <MainContainer>
+        {isChatVisible && (
+          <ChatWrapper>
+            <Header text="Chat with Janus" onClick={toggleChatVisibility}/>
+            <Conversation
+              messages={[...conversationList]}
             />
-          </a>
-        </div>
-      </div>
+            <SuggestedQuestions
+              questions={[...questionList]}
+            />
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+            <MessageInput
+              onSendMessage={() => {}}
+              placeholder="Type a message..."
+            />
+          </ChatWrapper>
+        )}
+        <Spacer size="24" />
+        <ChatToggle onClick={toggleChatVisibility} isClicked={isClicked} />
+      </MainContainer>
+    </>
+  );
 }
